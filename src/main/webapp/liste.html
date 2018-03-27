@@ -1,0 +1,39 @@
+<html>
+ <head>
+     <title>Liste des personnes</title>
+        
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+ </head>
+ <body>
+     <h1>Liste des personnes</h1>
+     <ul id='liste'>
+     </ul>
+ <script>
+function ajouter(personne) {
+    
+        var li = document.createElement("li");
+        li.innerHTML = personne.nom + " (" + personne.mail + ") ";
+        
+        var ul = document.getElementById('liste');
+        ul.appendChild(li);
+        console.log(ul);
+    }
+    $(document).ready(function () {
+        $.ajax({
+            url: './ActionServlet',
+            method: 'POST',
+            data: {
+                action: 'ConsulterListePersonnes'
+                },
+           dataType: 'json'
+        }).done(function (data) {
+            $('#liste-personnes').empty();
+            var personnes = data.personnes;
+            for (var i = 0; i < personnes.length; i++) {
+                ajouter(data.personnes[i]);
+                }
+            });
+    });
+    </script>
+ </body>
+</html>
